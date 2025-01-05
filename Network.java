@@ -30,12 +30,15 @@ public class Network {
      *  Notice that the method receives a String, and returns a User object. */
     public User getUser(String name) {
         for(int i = 0;i < users.length;i++){
-            if (users[i].getName() == name) {
-                if (this.users[i] == null) {
-                    return null;
+            if (users[i] != null) {
+                if (users[i].getName() == name) {
+                    if (this.users[i] == null) {
+                        return null;
+                    }
+                    return users[i];
                 }
-                return users[i];
             }
+
         }
         return null;
     }
@@ -46,11 +49,10 @@ public class Network {
     *  Otherwise, creates a new user with the given name, adds the user to this network, and returns true. */
     public boolean addUser(String name) {
         //// Replace the following statement with your code
-        if (userCount == users.length - 1 || getUser(name) == null) {
+        if (userCount >= this.users.length || getUser(name) != null) {
             return false;
         }
-        users[userCount + 1] = new User(name);
-        userCount++;
+        users[userCount++] = new User(name);
         return true;
     }
 
@@ -58,8 +60,8 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
-        if (getUser(name1) != null && getUser(name2) != null) {
-            if (getUser(name1).follows(name2) != true && getUser(name1).getfCount() > 10) {
+        if (getUser(name1) != null && getUser(name2) != null && !name1.equals(name2)) {
+            if (getUser(name1).follows(name2) != true && getUser(name1).getfCount() < 10) {
                 getUser(name1).addFollowee(name2);
                 return true;
             }

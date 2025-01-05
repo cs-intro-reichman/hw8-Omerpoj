@@ -669,7 +669,7 @@ public class TestHandler {
     public boolean countMutualTest7() {
         User alice = new User("Alice");
         User bob = new User("Bob");
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 100; i++) {
             alice.addFollowee("User" + i);
             bob.addFollowee("User" + i);
         }
