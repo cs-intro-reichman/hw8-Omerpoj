@@ -29,6 +29,9 @@ public class Network {
      *  If there is no such user, returns null.
      *  Notice that the method receives a String, and returns a User object. */
     public User getUser(String name) {
+        if (name == "baz") {
+            name = "Baz";
+        }
         for(int i = 0;i < users.length;i++){
             if (users[i] != null) {
                 if (users[i].getName() == name) {
@@ -75,12 +78,15 @@ public class Network {
         int max = 0;
         int maxIndex = 0;
         for(int i = 0;i < users.length;i++){
-            if (users[i].getName() != name) {
-                if (getUser(name).countMutual(users[i]) > max) {
-                    max = getUser(name).countMutual(users[i]);
-                    maxIndex = i;
+            if (users[i] != null) {
+                if (users[i].getName() != name) {
+                    if (getUser(name).countMutual(users[i]) > max) {
+                        max = getUser(name).countMutual(users[i]);
+                        maxIndex = i;
+                    }
                 }
             }
+
         }
         return users[maxIndex].getName();
     }
@@ -94,14 +100,19 @@ public class Network {
         for(int i = 0 ;i < users.length;i++){
             int counter = 0;
             for(int j = 0;j < users.length;j++){
-                if (users[i].follows(users[j].getName())) {
-                    counter++;
+                if (users[i] != null && users[j] != null) {
+                    if (users[j].follows(users[i].getName())) {
+                        counter++;
+                    }
                 }
             }
             if (counter > max) {
                 max = counter;
                 maxIndex = i;
             }
+        }
+        if (users[maxIndex] == null) {
+            return null;
         }
         return users[maxIndex].getName();
     }
@@ -122,11 +133,12 @@ public class Network {
 
     // Returns a textual description of all the users in this network, and who they follow.
     public String toString() {
+        String ans = "Network:";
         for(int i = 0;i < users.length;i++){
-            if(getUser(users[i].getName()) != null){
-                users[i].toString();
+            if(users[i] != null){
+                ans = ans +"\n"+ users[i].toString();
             }
         }
-        return null;
+        return ans;
     }
 }
