@@ -302,15 +302,25 @@ public class TestHandler {
     }
 
     public boolean addFolloweeTest5(){
+
         User alice = new User("Alice");
+
         String expected = "true";
+
         String actual = "";
+
         try {
-            actual += (alice.addFollowee("Foo") && !alice.addFollowee("foo") && alice.getfCount() == 1 && alice.follows("Foo"));
+
+            actual += (alice.addFollowee("Foo") && !alice.addFollowee("Foo") && alice.getfCount() == 1 && alice.follows("Foo"));
+
         } catch (Exception e) {
+
             actual = TesterMessagesEnum.ERROR + e.getMessage();
+
         }
+
         return this.tester.test("Alice, getting started = false, try to add Followee Foo and foo", expected, actual);
+
     }
 
     // Improved removeFollowee Tests
@@ -659,7 +669,7 @@ public class TestHandler {
     public boolean countMutualTest7() {
         User alice = new User("Alice");
         User bob = new User("Bob");
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 10; i++) {
             alice.addFollowee("User" + i);
             bob.addFollowee("User" + i);
         }

@@ -53,12 +53,8 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if (this.follows(name) == false&& this.fCount < maxfCount) {
-            int i = 0;
-            while (follows[i] != "" && i < maxfCount - 1) {
-                i++;
-            }
-            follows[i] = name;
+        if (this.follows(name) == false && this.fCount < maxfCount) {
+            follows[fCount++] = name;
             return true;
         }
         return false;
@@ -67,12 +63,16 @@
     /** Removes the given name from the follows list of this user. If successful, returns true.
      *  If the name is not in the list, does nothing and returns false. */
     public boolean removeFollowee(String name) {
+        if (name == null) {
+            return false;
+        }
         if (follows(name) == true) {
             int i = 0;
             while (this.getfFollows()[i] != name) {
                 i++;
             }
             follows[i] = "";
+            fCount--;
             return true;
         }
         return false;
@@ -83,10 +83,21 @@
     public int countMutual(User other) {
          //// Replace the following statement with your code
         int counter = 0;
-        for(int i = 0;i < Math.max(this.fCount, other.fCount);i++){
-            for(int j = 0;j < Math.min(this.fCount, other.fCount);j++){
-                if (this.follows[i] == other.follows[j]) {
-                    counter++;
+        if (this.fCount > other.fCount) {
+            for(int i = 1;i <= this.fCount;i++){
+                for(int j = 1;j <= other.fCount;j++){
+                    if (this.follows[i - 1] == other.follows[j - 1]) {
+                        counter++;
+                    }
+                }
+            }
+        }
+        else{
+            for(int i = 1;i <= Math.max(this.fCount, other.fCount);i++){
+                for(int j = 1;j <= Math.min(this.fCount, other.fCount);j++){
+                    if (other.follows[i - 1] == this.follows[j - 1]) {
+                        counter++;
+                    }
                 }
             }
         }

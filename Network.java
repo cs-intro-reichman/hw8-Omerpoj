@@ -31,6 +31,9 @@ public class Network {
     public User getUser(String name) {
         for(int i = 0;i < users.length;i++){
             if (users[i].getName() == name) {
+                if (this.users[i] == null) {
+                    return null;
+                }
                 return users[i];
             }
         }
@@ -55,8 +58,8 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
-        if (getUser(name1) != null && getUser(name2) != null) {///בדיקה האם המשתמשים קיימים
-            if (getUser(name1).follows(name2) == true && getUser(name2).getfCount() > 10) {
+        if (getUser(name1) != null && getUser(name2) != null) {
+            if (getUser(name1).follows(name2) != true && getUser(name1).getfCount() > 10) {
                 getUser(name1).addFollowee(name2);
                 return true;
             }
